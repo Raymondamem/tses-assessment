@@ -25,6 +25,16 @@ export interface UserProfile {
   avatar: string;
 }
 
+// Course data with real images
+const courseImages = [
+  "/card-img1.webp",
+  "/card-img2.webp",
+  "/card-img3.webp",
+  "/card-img4.webp",
+  "/card-img5.webp",
+  "/card-img6.webp",
+];
+
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -38,9 +48,9 @@ export const apiSlice = createApi({
           {
             id: '1',
             title: 'Effective Workplace Communication',
-            description: 'Master communication skills in professional settings',
+            description: 'Upon completion of this module, participants will: Implement practical communication techniques, a...',
             category: 'Soft Skill',
-            thumbnail: '/placeholder-course-1.jpg',
+            thumbnail: '/card-img1.webp',
             instructor: 'Sarah Smith',
             enrollments: 1223,
             progress: 45,
@@ -48,9 +58,9 @@ export const apiSlice = createApi({
           {
             id: '2',
             title: 'Mastering Interpersonal Skills',
-            description: 'Build stronger relationships and collaboration',
+            description: 'Upon completion of this module, participants will: Implement practical communication techniques, a...',
             category: 'Compliance & Policy',
-            thumbnail: '/placeholder-course-2.jpg',
+            thumbnail: '/card-img2.webp',
             instructor: 'John Doe',
             enrollments: 856,
             progress: 60,
@@ -58,12 +68,42 @@ export const apiSlice = createApi({
           {
             id: '3',
             title: 'Strengthening Team Cohesion',
-            description: 'Create a cohesive and productive team environment',
+            description: 'Upon completion of this module, participants will: Implement practical communication techniques, a...',
             category: 'Soft Skill',
-            thumbnail: '/placeholder-course-3.jpg',
+            thumbnail: '/card-img3.webp',
             instructor: 'Emma Wilson',
             enrollments: 945,
             progress: 30,
+          },
+          {
+            id: '4',
+            title: 'Enhancing Team Dialogue',
+            description: 'Upon completion of this module, participants will: Implement practical communication techniques, a...',
+            category: 'Digital Skills',
+            thumbnail: '/card-img4.webp',
+            instructor: 'Michael Brown',
+            enrollments: 1102,
+            progress: 55,
+          },
+          {
+            id: '5',
+            title: 'Optimizing Group Dynamics',
+            description: 'Upon completion of this module, participants will: Implement practical communication techniques, a...',
+            category: 'Business & Strategy',
+            thumbnail: '/card-img5.webp',
+            instructor: 'Lisa Anderson',
+            enrollments: 734,
+            progress: 40,
+          },
+          {
+            id: '6',
+            title: 'Cultivating Open Communication',
+            description: 'Upon completion of this module, participants will: Implement practical communication techniques, a...',
+            category: 'Onboarding',
+            thumbnail: '/card-img6.webp',
+            instructor: 'David Martinez',
+            enrollments: 1087,
+            progress: 70,
           },
         ];
         return { data: mockCourses };

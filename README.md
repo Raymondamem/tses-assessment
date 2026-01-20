@@ -63,7 +63,7 @@ components/
 1. **Clone the repository** (or download the files)
 ```bash
 git clone <your-repo-url>
-cd soludesk
+cd tses-assessment
 ```
 
 2. **Install dependencies**
