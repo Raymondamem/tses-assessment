@@ -1,13 +1,12 @@
 "use client";
 
 import { useGetCoursesQuery } from "@/app/store/api/apiSlice";
-import Link from "next/link";
-import { ChevronDown, Search } from "lucide-react";
 import { Suspense } from "react";
 import Loading from "./loading";
-import StatsCards from "@/components/layout/StatsCards";
+import StatsCards from "@/components/layout/StatsCardsComponent";
 import SearchAndFilter from "@/components/layout/SearchAndFilter";
 import CourseCard from "@/components/CourseCard";
+import Pagination from "@/components/layout/Pagination";
 
 export default function CoursesPage() {
   return (
@@ -56,35 +55,7 @@ function CoursesPageContent() {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between pt-6">
-            <button className="text-gray-600 text-sm font-medium hover:text-gray-900 flex items-center gap-1">
-              Show 10/page
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <div className="flex items-center gap-2">
-              <button className="px-2 py-1.5 text-gray-600 text-sm hover:text-gray-900 font-medium">
-                Prev
-              </button>
-              <button className="w-8 h-8 bg-blue-600 text-white text-sm font-semibold rounded-full flex items-center justify-center">
-                01
-              </button>
-              {[2, 3, 4, 5].map((page) => (
-                <button
-                  key={page}
-                  className="w-8 h-8 text-gray-600 text-sm border-2 border-gray-300 rounded-full hover:border-blue-500 hover:text-blue-600 transition-colors font-medium"
-                >
-                  {String(page).padStart(2, "0")}
-                </button>
-              ))}
-              <span className="px-1 text-gray-400">...</span>
-              <button className="w-8 h-8 text-gray-600 text-sm border-2 border-gray-300 rounded-full hover:border-blue-500 hover:text-blue-600 transition-colors font-medium">
-                24
-              </button>
-              <button className="px-2 py-1.5 text-gray-600 text-sm hover:text-gray-900 font-medium">
-                Next
-              </button>
-            </div>
-          </div>
+          <Pagination />
         </div>
       </div>
     </div>

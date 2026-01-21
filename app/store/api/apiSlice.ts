@@ -25,16 +25,6 @@ export interface UserProfile {
   avatar: string;
 }
 
-// Course data with real images
-const courseImages = [
-  "/card-img1.webp",
-  "/card-img2.webp",
-  "/card-img3.webp",
-  "/card-img4.webp",
-  "/card-img5.webp",
-  "/card-img6.webp",
-];
-
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({

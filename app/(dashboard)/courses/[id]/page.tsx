@@ -1,21 +1,89 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useGetCourseByIdQuery, useGetLessonsQuery } from '@/app/store/api/apiSlice';
-import { ChevronLeft, Check } from 'lucide-react';
-
+import { use } from "react";
+import Link from "next/link";
+import { useGetCourseByIdQuery } from "@/app/store/api/apiSlice";
+import StatsCard from "@/components/StatsCard";
+import BackIcon from "@/components/icons/BackIcon";
+import TotalEnrollIcon from "@/components/icons/TotalEnrollIcon";
+import TotalApplied from "@/components/icons/TotalAppliedIcon";
+import ColleguesTable from "@/components/layout/ColleguesTable";
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default function CourseDetailPage({ params }: PageProps) {
-  const resolvedParams = params as any;
-  const courseId = resolvedParams.id;
-  const [activeTab, setActiveTab] = useState<'content' | 'feedback'>('content');
+const courseImages = [
+  "/card-img1.webp",
+  "/card-img1.webp",
+  "/card-img1.webp",
+  "/card-img1.webp",
+  "/card-img1.webp",
+];
 
-  const { data: course, isLoading: courseLoading } = useGetCourseByIdQuery(courseId);
-  const { data: lessons = [], isLoading: lessonsLoading } = useGetLessonsQuery(courseId);
+const mockLearners = [
+  {
+    id: "1",
+    name: "Nithya Menon",
+    city: "New York",
+    email: "nithya.menon@email.com",
+    img: "/image135.svg",
+  },
+  {
+    id: "2",
+    name: "Meera Gonzalez",
+    city: "Toronto",
+    email: "meera.gonzalez@email.com",
+    img: "/image135.svg",
+  },
+  {
+    id: "3",
+    name: "Monica Patel",
+    city: "Paris",
+    email: "monica.patel@email.com",
+    img: "/image135.svg",
+  },
+  {
+    id: "4",
+    name: "Dinesh Kumar",
+    city: "Tokyo",
+    email: "dinesh.kumar@email.com",
+    img: "/image135.svg",
+  },
+  {
+    id: "5",
+    name: "Karthik Subramanian",
+    city: "London",
+    email: "karthik.subramanian@email.com",
+    img: "/image135.svg",
+  },
+  {
+    id: "6",
+    name: "Jagathesh Narayanan",
+    city: "Berlin",
+    email: "jagathesh.narayanan@email.com",
+    img: "/image135.svg",
+  },
+  {
+    id: "7",
+    name: "Nithya Menon",
+    city: "New York",
+    email: "nithya.menon@email.com",
+    img: "/image135.svg",
+  },
+  {
+    id: "8",
+    name: "Jagathesh Narayanan",
+    city: "Tokyo",
+    email: "dinesh.kumar@email.com",
+    img: "/image135.svg",
+  },
+];
+
+export default function CourseLandingPage({ params }: PageProps) {
+  const resolvedParams = use(params);
+  const courseId = resolvedParams.id;
+  const { data: course, isLoading: courseLoading } =
+    useGetCourseByIdQuery(courseId);
 
   if (courseLoading) {
     return (
@@ -33,139 +101,64 @@ export default function CourseDetailPage({ params }: PageProps) {
     );
   }
 
+  const courseIndex = parseInt(courseId) % 5;
+  const courseImage = courseImages[courseIndex];
+
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      {/* Header with Back Button */}
-      <div className="flex items-center gap-4 mb-6">
-        <Link
-          href="/courses"
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-        >
-          <ChevronLeft className="w-6 h-6 text-gray-600" />
-        </Link>
-        <h1 className="text-2xl font-bold text-gray-900">{course.title}</h1>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content */}
-        <div className="lg:col-span-2">
-          {/* Course Video/Banner */}
-          <div className="bg-gradient-to-br from-teal-200 to-teal-400 rounded-lg overflow-hidden mb-6 h-96 flex items-center justify-center relative">
-            <img
-              src={course.thumbnail || "/placeholder.svg"}
-              alt={course.title}
-              className="w-full h-full object-cover"
-            />
-            <button className="absolute w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-50 transition-colors">
-              <div className="w-0 h-0 border-l-10 border-r-0 border-t-6 border-b-6 border-l-blue-600 border-t-transparent border-b-transparent ml-1"></div>
-            </button>
-          </div>
-
-          {/* Tabs */}
-          <div className="border-b border-gray-200 mb-6">
-            <div className="flex gap-8">
-              <button
-                onClick={() => setActiveTab('content')}
-                className={`py-3 font-medium border-b-2 transition-colors ${
-                  activeTab === 'content'
-                    ? 'text-blue-600 border-blue-600'
-                    : 'text-gray-600 border-transparent'
-                }`}
-              >
-                Course Content
-              </button>
-              <button
-                onClick={() => setActiveTab('feedback')}
-                className={`py-3 font-medium border-b-2 transition-colors ${
-                  activeTab === 'feedback'
-                    ? 'text-blue-600 border-blue-600'
-                    : 'text-gray-600 border-transparent'
-                }`}
-              >
-                Review/Feedbacks
-              </button>
+    <div className="bg-[#F6F7F6] min-h-screen">
+      <div className="px-8 py-6 max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/courses"
+              className="rounded-lg transition-colors"
+            >
+              <BackIcon />
+            </Link>
+            <div className="flex items-center gap-3">
+              <h1 className="text-[1.5rem] font-medium text-[#202020]">
+                {course.title}
+              </h1>
+              <span className="inline-block text-xs font-medium px-3 py-2 bg-[#E1F5FE] text-[#035177] rounded-full">
+                {course.category}
+              </span>
             </div>
           </div>
-
-          {/* Tab Content */}
-          {activeTab === 'content' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Lesson 1 - Welcome Message</h2>
-              <div className="prose prose-sm text-gray-600 space-y-4">
-                <p>
-                  Welcome to 'Communicate with Confidence'! In an era where the pace of work is ever-increasing and the
-                  demands on our time are relentless, the ability to communicate effectively has never been more crucial.
-                  This comprehensive course is meticulously crafted to equip you with the essential skills that will not only
-                  enhance your communication abilities but also empower you to thrive in any professional environment you
-                  find yourself in.
-                </p>
-                <h3 className="font-semibold text-gray-900 mt-6">Why Communication Matters</h3>
-                <p>
-                  Effective communication is the cornerstone of success in the workplace. It is the bridge that connects
-                  individuals, teams, and organizations, facilitating collaboration and understanding. In today's diverse and
-                  dynamic work settings, the ability to convey your thoughts clearly and listen actively is paramount. This
-                  course aims to illuminate the significance of communication and provide you with the tools necessary to
-                  master it.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'feedback' && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Reviews & Feedback</h2>
-              <div className="text-gray-600">
-                <p>No feedback yet. Be the first to review this course!</p>
-              </div>
-            </div>
-          )}
+          <Link
+            href={`/courses/${courseId}/learn`}
+            className="flex items-center justify-center w-57 h-12 bg-[#0063EF] text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Start Learning
+          </Link>
         </div>
 
-        {/* Sidebar - Lessons */}
-        <div className="bg-white rounded-lg p-6 border border-gray-200 h-fit">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Lessons (0/32)</h2>
-
-          {/* Lesson Groups */}
-          <div className="space-y-2">
-            {/* Introduction Section */}
-            <div className="border-b border-gray-200 pb-4">
-              <button className="w-full text-left font-semibold text-gray-900 flex items-center justify-between py-2">
-                Introduction
-                <span>▲</span>
-              </button>
-              <div className="space-y-2 mt-2">
-                {lessons.slice(0, 4).map((lesson) => (
-                  <div key={lesson.id} className="flex items-start gap-3 py-2">
-                    <div className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      lesson.completed ? 'bg-blue-600 border-blue-600' : 'border-gray-300'
-                    }`}>
-                      {lesson.completed && <Check className="w-3 h-3 text-white" />}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">{lesson.title}</p>
-                      <p className="text-xs text-gray-500">{lesson.duration}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Other Sections */}
-            {['Setting Up Your Workspace', 'Navigating the Course', 'Course Resources', 'Assessment'].map((section) => (
-              <div key={section} className="border-b border-gray-200 pb-4">
-                <button className="w-full text-left font-semibold text-gray-900 flex items-center justify-between py-2">
-                  {section}
-                  <span>▼</span>
-                </button>
-              </div>
-            ))}
-          </div>
-
-          {/* Mark as Complete Button */}
-          <button className="w-full mt-6 px-4 py-2 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors">
-            Mark as complete
-          </button>
+        {/* Hero Image */}
+        <div className="mb-8 rounded-lg overflow-hidden shadow-sm h-56">
+          <img
+            src={courseImage || "/placeholder.svg"}
+            alt={course.title}
+            className="w-full h-full object-cover"
+          />
         </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 gap-6 mb-8">
+          <StatsCard
+            icon={<TotalApplied />}
+            title="Total Applicants"
+            value={1223}
+          />
+
+          <StatsCard
+            icon={<TotalEnrollIcon />}
+            title="Active Learners"
+            value={13}
+          />
+        </div>
+
+        {/* Learners Table */}
+        <ColleguesTable mockLearners={mockLearners} />
       </div>
     </div>
   );
