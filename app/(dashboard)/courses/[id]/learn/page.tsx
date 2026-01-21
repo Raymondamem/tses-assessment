@@ -2,14 +2,14 @@
 
 import { use } from "react";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   useGetCourseByIdQuery,
   useGetLessonsQuery,
 } from "@/app/store/api/apiSlice";
-import { ChevronLeft, ChevronDown, Check } from "lucide-react";
-import BackIcon from "@/components/icons/BackIcon";
-import PlayIcon from "@/components/icons/PlayIcon";
+import VideoBanner from "@/components/Video";
+import PageHeader from "@/components/layout/PageHeader";
+import ContentWrapper from "@/components/layout/ContentWrapper";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -74,6 +74,7 @@ const lessonSections = [
 ];
 
 export default function CourseLearnPage({ params }: PageProps) {
+  const router = useRouter();
   const resolvedParams = use(params);
   const courseId = resolvedParams.id;
   const [activeTab, setActiveTab] = useState<"content" | "feedback">("content");
@@ -114,182 +115,96 @@ export default function CourseLearnPage({ params }: PageProps) {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col">
+    <div className="bg-[#F6F7F6] min-h-screen flex flex-col">
       {/* Header - Fixed */}
-      <div className="px-8 py-6 max-w-7xl mx-auto w-full shrink-0">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              href={`/courses/${courseId}`}
-              className="rounded-lg transition-colors"
-            >
-              <BackIcon />
-            </Link>
-            <h1 className="text-[1.5rem] font-medium text-[#202020]">
-              {course.title}
-            </h1>
-          </div>
-        </div>
-      </div>
+      <PageHeader title={course.title} backHref={`/courses/${courseId}`} />
 
       {/* Content Wrapper */}
-      <div className="flex-1 overflow-hidden px-8 pb-6 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-          {/* Main Content - Scrollable */}
-          <div className="lg:col-span-2 space-y-6 overflow-y-auto h-full pr-4">
-            {/* Video Banner */}
-            <div className="bg-white rounded-lg overflow-hidden relative h-100">
-              <img
-                src={courseImage || "/placeholder.svg"}
-                alt={course.title}
-                className="w-full h-full object-cover"
-              />
-              <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-fit h-fit rounded-full">
-                <PlayIcon />
+      <ContentWrapper
+        lessonSections={lessonSections}
+        expandedSections={expandedSections}
+        toggleSection={toggleSection}
+      >
+        {/* Main Content - Scrollable */}
+        <div className="lg:col-span-2 space-y-6 overflow-y-auto h-full pr-4">
+          {/* Video Banner */}
+          <VideoBanner courseImage={courseImage} course={course} />
+
+          {/* Tabs */}
+          <div className="border-b border-gray-200">
+            <div className="flex">
+              <button
+                onClick={() => setActiveTab("content")}
+                className={`px-6 py-3 border-b-2 transition-colors text-sm ${
+                  activeTab === "content"
+                    ? "text-blue-600 border-blue-600 font-semibold"
+                    : "text-[#636363] border-transparent hover:text-gray-900"
+                }`}
+              >
+                Course Content
               </button>
-            </div>
-
-            {/* Tabs */}
-            <div className="border-b border-gray-200">
-              <div className="flex">
-                <button
-                  onClick={() => setActiveTab("content")}
-                  className={`px-6 py-3 border-b-2 transition-colors text-sm ${
-                    activeTab === "content"
-                      ? "text-blue-600 border-blue-600 font-semibold"
-                      : "text-[#636363] border-transparent hover:text-gray-900"
-                  }`}
-                >
-                  Course Content
-                </button>
-                <button
-                  onClick={() => setActiveTab("feedback")}
-                  className={`px-6 py-3 border-b-2 transition-colors text-sm ${
-                    activeTab === "feedback"
-                      ? "text-blue-600 border-blue-600 font-semibold"
-                      : "text-[#636363] border-transparent hover:text-gray-900"
-                  }`}
-                >
-                  Review/Feedbacks
-                </button>
-              </div>
-            </div>
-
-            {/* Tab Content */}
-            <div className="border border-[#F0F0F0] rounded-lg">
-              <div>
-                {activeTab === "content" && (
-                  <div className="space-y-6">
-                    <div className="bg-white border-none rounded-lg">
-                      <h2 className="px-6 py-3 text-md font-black! text-gray-900 mb-4 border-b border-[#F0F0F0]">
-                        Lesson 1 - {lessonContent.title}
-                      </h2>
-                      <p className="px-6 text-[#636363] text-sm leading-relaxed mb-6">
-                        {lessonContent.intro}
-                      </p>
-
-                      {lessonContent.sections.map((section, index) => (
-                        <div key={index} className="px-6">
-                          <h3 className="text-[#636363] text-md font-black! mb-3">
-                            {section.title}
-                          </h3>
-                          <p className="text-[#636363] text-sm leading-relaxed whitespace-pre-wrap">
-                            {section.content}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-10 p-6">
-                      <button className="block ml-auto mr-0 px-6 py-2.5 border border-blue-600 text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors text-sm">
-                        Mark as complete
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === "feedback" && (
-                  <div>
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">
-                      Reviews & Feedback
-                    </h2>
-                    <p className="text-gray-600 text-sm">
-                      No feedback yet. Be the first to review this course!
-                    </p>
-                  </div>
-                )}
-              </div>
+              <button
+                onClick={() => setActiveTab("feedback")}
+                className={`px-6 py-3 border-b-2 transition-colors text-sm ${
+                  activeTab === "feedback"
+                    ? "text-blue-600 border-blue-600 font-semibold"
+                    : "text-[#636363] border-transparent hover:text-gray-900"
+                }`}
+              >
+                Review/Feedbacks
+              </button>
             </div>
           </div>
 
-          {/* Sidebar - Lessons - Fixed */}
-          <div className="bg-white rounded-lg h-fit sticky top-0">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-sm font-semibold text-gray-600">
-                Lessons (0/32)
-              </h2>
-            </div>
+          {/* Tab Content */}
+          <div className="border border-[#F0F0F0] rounded-lg">
+            <div>
+              {activeTab === "content" && (
+                <div className="space-y-6">
+                  <div className="bg-white border-none rounded-lg">
+                    <h2 className="px-6 py-3 text-md font-medium text-gray-900 mb-4 border-b border-[#F0F0F0]">
+                      Lesson 1 - {lessonContent.title}
+                    </h2>
+                    <p className="px-6 text-[#636363] text-sm leading-relaxed mb-6">
+                      {lessonContent.intro}
+                    </p>
 
-            {/* Lesson Sections */}
-            <div className="divide-y divide-gray-200 max-h-[calc(100vh-200px)] overflow-y-auto">
-              {lessonSections.map((section) => (
-                <div key={section.name}>
-                  <button
-                    onClick={() => toggleSection(section.name)}
-                    className="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors"
-                  >
-                    <h3 className="font-semibold text-gray-900 text-sm">
-                      {section.name}
-                    </h3>
-                    <ChevronDown
-                      className={`w-5 h-5 text-gray-600 transition-transform ${
-                        expandedSections.includes(section.name)
-                          ? "rotate-180"
-                          : ""
-                      }`}
-                    />
-                  </button>
-
-                  {/* Lessons */}
-                  {expandedSections.includes(section.name) &&
-                    section.lessons.length > 0 && (
-                      <div className="bg-gray-50 px-6 py-3 space-y-3">
-                        {section.lessons.map((lesson) => (
-                          <div
-                            key={lesson.id}
-                            className="flex items-start gap-3 py-1"
-                          >
-                            <div
-                              className={`shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 ${
-                                lesson.completed
-                                  ? "bg-blue-600 border-blue-600"
-                                  : "border-gray-300"
-                              }`}
-                            >
-                              {lesson.completed && (
-                                <Check className="w-3 h-3 text-white" />
-                              )}
-                            </div>
-                            <div className="grow">
-                              <p
-                                className={`text-sm font-medium leading-tight ${
-                                  lesson.completed
-                                    ? "text-gray-900"
-                                    : "text-blue-600"
-                                }`}
-                              >
-                                {lesson.title}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
+                    {lessonContent.sections.map((section, index) => (
+                      <div key={index} className="px-6">
+                        <h3 className="text-[#636363] text-md font-medium mb-3">
+                          {section.title}
+                        </h3>
+                        <p className="text-[#636363] text-sm leading-relaxed whitespace-pre-wrap">
+                          {section.content}
+                        </p>
                       </div>
-                    )}
+                    ))}
+                  </div>
+                  <div className="mt-10 p-6">
+                    <button
+                      onClick={() => router.push("/assessments")}
+                      className="block ml-auto mr-0 px-6 py-2.5 border border-blue-600 text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors text-sm"
+                    >
+                      Mark as complete
+                    </button>
+                  </div>
                 </div>
-              ))}
+              )}
+
+              {activeTab === "feedback" && (
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900 mb-4">
+                    Reviews & Feedback
+                  </h2>
+                  <p className="text-gray-600 text-sm">
+                    No feedback yet. Be the first to review this course!
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </div>
+      </ContentWrapper>
     </div>
   );
 }
