@@ -183,7 +183,7 @@ export default function AssessmentsPage({ params }: PageProps) {
 
                 <div className="mt-10 p-6">
                   <button
-                    onClick={() => router.push("/courses")}
+                    onClick={() => router.push("/dashboard/courses")}
                     className="block ml-auto mr-0 px-6 py-2.5 border border-blue-600 text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors text-sm"
                   >
                     Submit Assessment

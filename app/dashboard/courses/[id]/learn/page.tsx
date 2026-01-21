@@ -117,7 +117,7 @@ export default function CourseLearnPage({ params }: PageProps) {
   return (
     <div className="bg-[#F6F7F6] min-h-screen flex flex-col">
       {/* Header - Fixed */}
-      <PageHeader title={course.title} backHref={`/courses/${courseId}`} />
+      <PageHeader title={course.title} backHref={`/dashboard/courses/${courseId}`} />
 
       {/* Content Wrapper */}
       <ContentWrapper
@@ -182,7 +182,7 @@ export default function CourseLearnPage({ params }: PageProps) {
                   </div>
                   <div className="mt-10 p-6">
                     <button
-                      onClick={() => router.push("/assessments")}
+                      onClick={() => router.push("/dashboard/assessments")}
                       className="block ml-auto mr-0 px-6 py-2.5 border border-blue-600 text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors text-sm"
                     >
                       Mark as complete

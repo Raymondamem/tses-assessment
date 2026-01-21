@@ -27,7 +27,7 @@ const navigation = [
   },
   {
     name: "Courses/Materials",
-    href: "/courses",
+    href: "/dashboard/courses",
     icon: (bg: boolean) => <SidebarBookIcon bg={bg} />,
   },
   {

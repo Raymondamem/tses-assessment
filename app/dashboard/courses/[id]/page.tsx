@@ -111,7 +111,7 @@ export default function CourseLandingPage({ params }: PageProps) {
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-4">
             <Link
-              href="/courses"
+              href="/dashboard/courses"
               className="rounded-lg transition-colors"
             >
               <BackIcon />
@@ -126,7 +126,7 @@ export default function CourseLandingPage({ params }: PageProps) {
             </div>
           </div>
           <Link
-            href={`/courses/${courseId}/learn`}
+            href={`/dashboard/courses/${courseId}/learn`}
             className="flex items-center justify-center w-57 h-12 bg-[#0063EF] text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
           >
             Start Learning

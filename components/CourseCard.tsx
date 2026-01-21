@@ -13,7 +13,7 @@ export default function CourseCard({
   };
 }) {
   return (
-    <Link key={course.id} href={`/courses/${course.id}`}>
+    <Link key={course.id} href={`/dashboard/courses/${course.id}`}>
       <div className="bg-[#F6F7F6] rounded-lg overflow-hidden hover:shadow-sm transition-all duration-300 cursor-pointer group h-full flex flex-col">
         {/* Course Image */}
         <div className="relative w-full h-32 bg-gray-200 overflow-hidden rounded-t-lg shrink-0">
