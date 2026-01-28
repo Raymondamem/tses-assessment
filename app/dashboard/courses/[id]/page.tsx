@@ -8,6 +8,8 @@ import BackIcon from "@/components/icons/BackIcon";
 import TotalEnrollIcon from "@/components/icons/TotalEnrollIcon";
 import TotalApplied from "@/components/icons/TotalAppliedIcon";
 import ColleguesTable from "@/components/layout/ColleguesTable";
+import InnerHeadContentLayout from "@/components/layout/InnerHeadContent";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }
@@ -105,61 +107,66 @@ export default function CourseLandingPage({ params }: PageProps) {
   const courseImage = courseImages[courseIndex];
 
   return (
-    <div className="bg-[#F6F7F6] min-h-screen">
-      <div className="px-8 py-6 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/dashboard/courses"
-              className="rounded-lg transition-colors"
-            >
-              <BackIcon />
-            </Link>
-            <div className="flex items-center gap-3">
-              <h1 className="text-[1.5rem] font-medium text-[#202020]">
-                {course.title}
-              </h1>
-              <span className="inline-block text-xs font-medium px-3 py-2 bg-[#E1F5FE] text-[#035177] rounded-full">
-                {course.category}
-              </span>
+    <InnerHeadContentLayout
+      children1={
+        <>
+          {/* Header */}
+          <div className="flex items-center justify-between mb-5 sticky!">
+            <div className="flex items-center gap-4">
+              <Link
+                href="/dashboard/courses"
+                className="rounded-lg transition-colors"
+              >
+                <BackIcon />
+              </Link>
+              <div className="flex items-center gap-3">
+                <h1 className="text-[1.5rem] font-medium text-[#202020]">
+                  {course.title}
+                </h1>
+                <span className="inline-block text-xs font-medium px-3 py-2 bg-[#E1F5FE] text-[#035177] rounded-full">
+                  {course.category}
+                </span>
+              </div>
             </div>
+            <Link
+              href={`/dashboard/courses/${courseId}/learn`}
+              className="flex items-center justify-center w-57 h-12 bg-[#0063EF] text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Start Learning
+            </Link>
           </div>
-          <Link
-            href={`/dashboard/courses/${courseId}/learn`}
-            className="flex items-center justify-center w-57 h-12 bg-[#0063EF] text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Start Learning
-          </Link>
-        </div>
 
-        {/* Hero Image */}
-        <div className="mb-8 rounded-lg overflow-hidden shadow-sm h-56">
-          <img
-            src={courseImage || "/placeholder.svg"}
-            alt={course.title}
-            className="w-full h-full object-cover"
-          />
-        </div>
+          {/* Hero Image */}
+          <div className="mb-8 rounded-lg overflow-hidden shadow-sm h-56">
+            <img
+              src={courseImage || "/placeholder.svg"}
+              alt={course.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 gap-6 mb-8">
-          <StatsCard
-            icon={<TotalApplied />}
-            title="Total Applicants"
-            value={1223}
-          />
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <StatsCard
+              icon={<TotalApplied />}
+              title="Total Applicants"
+              value={1223}
+            />
 
-          <StatsCard
-            icon={<TotalEnrollIcon />}
-            title="Active Learners"
-            value={13}
-          />
-        </div>
-
-        {/* Learners Table */}
-        <ColleguesTable mockLearners={mockLearners} />
-      </div>
-    </div>
+            <StatsCard
+              icon={<TotalEnrollIcon />}
+              title="Active Learners"
+              value={13}
+            />
+          </div>
+        </>
+      }
+      children2={
+        <>
+          {/* Learners Table */}
+          <ColleguesTable mockLearners={mockLearners} />
+        </>
+      }
+    />
   );
 }

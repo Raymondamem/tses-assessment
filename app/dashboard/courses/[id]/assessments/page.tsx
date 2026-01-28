@@ -6,8 +6,8 @@ import {
   useGetCourseByIdQuery,
   useGetLessonsQuery,
 } from "@/app/store/api/apiSlice";
-import PageHeader from "@/components/layout/PageHeader";
-import ContentWrapper from "@/components/layout/ContentWrapper";
+import CoursesHeader from "@/components/layout/CoursesHeader";
+import CoursesWrapper from "@/components/layout/CoursesWrapper";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -71,13 +71,11 @@ export default function AssessmentsPage({ params }: PageProps) {
   return (
     <div className="bg-[#F6F7F6] min-h-screen flex flex-col">
       {/* Header - Fixed */}
-      <PageHeader
-        title={`${course.title} - Assessment`}
-        backHref={`/courses/${assessmentId}`}
-      />
 
       {/* Content Wrapper */}
-      <ContentWrapper
+      <CoursesWrapper
+        courseId={assessmentId}
+        course={course}
         lessonSections={assessmentSections}
         expandedSections={expandedSections}
         toggleSection={toggleSection}
@@ -204,7 +202,7 @@ export default function AssessmentsPage({ params }: PageProps) {
             )}
           </div>
         </div>
-      </ContentWrapper>
+      </CoursesWrapper>
     </div>
   );
 }
