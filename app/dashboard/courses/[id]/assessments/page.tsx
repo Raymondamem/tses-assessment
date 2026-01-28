@@ -6,7 +6,6 @@ import {
   useGetCourseByIdQuery,
   useGetLessonsQuery,
 } from "@/app/store/api/apiSlice";
-import CoursesHeader from "@/components/layout/CoursesHeader";
 import CoursesWrapper from "@/components/layout/CoursesWrapper";
 
 interface PageProps {
@@ -15,7 +14,8 @@ interface PageProps {
 
 const assessmentContent = {
   title: "Assessment Quiz",
-  intro: "Test your knowledge and understanding of the course material. Answer all questions carefully.",
+  intro:
+    "Test your knowledge and understanding of the course material. Answer all questions carefully.",
 };
 
 const assessmentSections = [
@@ -23,9 +23,21 @@ const assessmentSections = [
     name: "Assessment Questions",
     expanded: true,
     lessons: [
-      { id: "1", title: "What is the purpose of React Hooks?", completed: false },
-      { id: "2", title: "Which hook is used for side effects in React?", completed: false },
-      { id: "3", title: "Explain the Virtual DOM and its benefits", completed: false },
+      {
+        id: "1",
+        title: "What is the purpose of React Hooks?",
+        completed: false,
+      },
+      {
+        id: "2",
+        title: "Which hook is used for side effects in React?",
+        completed: false,
+      },
+      {
+        id: "3",
+        title: "Explain the Virtual DOM and its benefits",
+        completed: false,
+      },
     ],
   },
 ];
@@ -69,9 +81,7 @@ export default function AssessmentsPage({ params }: PageProps) {
   };
 
   return (
-    <div className="bg-[#F6F7F6] min-h-screen flex flex-col">
-      {/* Header - Fixed */}
-
+    <>
       {/* Content Wrapper */}
       <CoursesWrapper
         courseId={assessmentId}
@@ -81,7 +91,7 @@ export default function AssessmentsPage({ params }: PageProps) {
         toggleSection={toggleSection}
       >
         {/* Main Content - Scrollable */}
-        <div className="lg:col-span-2 space-y-6 overflow-y-auto h-full pr-4">
+        <div className="w-full lg:col-span-2 space-y-6 overflow-y-auto h-full pr-4">
           {/* Tabs */}
           <div className="border-b border-gray-200">
             <div className="flex">
@@ -120,14 +130,14 @@ export default function AssessmentsPage({ params }: PageProps) {
                     {assessmentContent.intro}
                   </p>
 
-                  <div className="space-y-8 px-6">
+                  <div className="space-y-8 px-6 pb-6">
                     {assessmentSections[0].lessons.map((question, index) => (
                       <div
                         key={question.id}
-                        className="border-b border-gray-200 pb-8 last:border-b-0"
+                        className="border border-gray-200 p-4 rounded-2xl"
                       >
                         <div className="flex items-start gap-3 mb-4">
-                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-semibold text-sm">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-semibold text-sm">
                             {index + 1}
                           </div>
                           <div className="flex-1">
@@ -203,6 +213,6 @@ export default function AssessmentsPage({ params }: PageProps) {
           </div>
         </div>
       </CoursesWrapper>
-    </div>
+    </>
   );
 }
